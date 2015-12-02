@@ -34,4 +34,10 @@ public class ExerciseValidatorController {
     public String showExerciseValidator() {
         return "Index";
     }
+
+    @RequestMapping(value = "/Validate", method = RequestMethod.POST)
+    public String showExerciseValidation() {
+        // TODO
+        return "Index";
+    }
 }
