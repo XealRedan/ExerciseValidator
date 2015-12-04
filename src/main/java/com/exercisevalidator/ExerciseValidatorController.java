@@ -60,7 +60,7 @@ public class ExerciseValidatorController {
      * @param response the response
      * @return TBD
      */
-    @RequestMapping(value="/Validate", method = RequestMethod.POST)
+    @RequestMapping(value="/upload", method = RequestMethod.POST)
     public @ResponseBody
     LinkedList<FileMeta> upload(MultipartHttpServletRequest request, HttpServletResponse response) {
         final LinkedList<FileMeta> files = new LinkedList<>();

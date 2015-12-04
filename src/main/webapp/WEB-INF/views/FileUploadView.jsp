@@ -44,7 +44,8 @@
     <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-video.js'></script>
     <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-validate.js'></script>
     <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-angular.js'></script>
-    <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/app.js'></script>
+    <!--script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/app.js'></script-->
+    <script type='text/javascript' src='../js/FileUpload.js'></script>
 </head>
 <body>
 <div class="container">
@@ -53,8 +54,8 @@
     <p class="lead">Web utility to validate student tests</p>
 
     <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="/" method="POST" enctype="multipart/form-data" data-ng-app="demo"
-          data-ng-controller="DemoFileUploadController" data-file-upload="options"
+    <form id="fileupload" action="/" method="POST" enctype="multipart/form-data" data-ng-app="FileUpload"
+          data-ng-controller="FileUploadController" data-file-upload="options"
           data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
