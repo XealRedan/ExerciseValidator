@@ -23,29 +23,29 @@
 <head>
     <title>Exercise Validator</title>
 
-    <link rel='stylesheet' href='webjars/blueimp-gallery/2.16.0/css/blueimp-gallery.min.css'>
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.5/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.5/css/bootstrap-theme.min.css'>
-    <link rel='stylesheet' href='webjars/jquery-file-upload/9.10.1/css/jquery.fileupload.css'>
-    <link rel='stylesheet' href='webjars/jquery-file-upload/9.10.1/css/jquery.fileupload-ui.css'>
-    <link rel='stylesheet' href='webjars/jquery-file-upload/9.10.1/css/style.css'>
+    <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/blueimp-gallery/2.16.0/css/blueimp-gallery.min.css'>
+    <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/bootstrap/3.3.5/css/bootstrap-theme.min.css'>
+    <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/css/jquery.fileupload.css'>
+    <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/css/jquery.fileupload-ui.css'>
+    <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/css/style.css'>
 
-    <script type='text/javascript' src='webjars/jquery/2.1.4/jquery.min.js'></script>
-    <script type='text/javascript' src='webjars/angularjs/1.4.8/angular.min.js'></script>
-    <script type='text/javascript' src='webjars/jquery-ui/1.11.4/jquery-ui.js'></script>
-    <script type='text/javascript' src='webjars/blueimp-load-image/1.14.0/js/load-image.all.min.js'></script>
-    <script type='text/javascript' src='webjars/blueimp-canvas-to-blob/2.1.1/js/canvas-to-blob.min.js'></script>
-    <script type='text/javascript' src='webjars/bootstrap/3.3.5/js/bootstrap.min.js'></script>
-    <script type='text/javascript' src='webjars/blueimp-gallery/2.16.0/js/blueimp-gallery.min.js'></script>
-    <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload.js'></script>
-    <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-process.js'></script>
-    <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-image.js'></script>
-    <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-audio.js'></script>
-    <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-video.js'></script>
-    <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-validate.js'></script>
-    <script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-angular.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery/2.1.4/jquery.min.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/angularjs/1.4.8/angular.min.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-ui/1.11.4/jquery-ui.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/blueimp-load-image/1.14.0/js/load-image.all.min.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/blueimp-canvas-to-blob/2.1.1/js/canvas-to-blob.min.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/blueimp-gallery/2.16.0/js/blueimp-gallery.min.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-process.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-image.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-audio.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-video.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-validate.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-angular.js'></script>
     <!--script type='text/javascript' src='webjars/jquery-file-upload/9.10.1/js/app.js'></script-->
-    <script type='text/javascript' src='../js/FileUpload.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/js/FileUpload.js'></script>
 </head>
 <body>
 <div class="container">
