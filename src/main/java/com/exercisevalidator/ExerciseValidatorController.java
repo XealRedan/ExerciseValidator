@@ -63,7 +63,11 @@ public class ExerciseValidatorController {
      */
     @RequestMapping(value="/upload/", method = RequestMethod.POST)
     public @ResponseBody
-    LinkedList<FileMeta> upload(MultipartHttpServletRequest request, HttpServletResponse response) {
+    LinkedList<FileMeta> upload(HttpServletRequest request, HttpServletResponse response) {
+        if(!(request instanceof MultipartHttpServletRequest)) {
+            return null;
+        }
+
         final LinkedList<FileMeta> files = new LinkedList<>();
 
         Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
