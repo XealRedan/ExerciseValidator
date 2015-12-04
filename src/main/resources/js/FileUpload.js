@@ -32,7 +32,7 @@
             '$scope', '$http', '$filter', '$window',
             function ($scope, $http) {
                 $scope.options = {
-                    url: url,
+                    url: url
                 };
 
                 $scope.loadingFiles = true;

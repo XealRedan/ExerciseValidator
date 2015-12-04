@@ -37,6 +37,7 @@
     <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/blueimp-canvas-to-blob/2.1.1/js/canvas-to-blob.min.js'></script>
     <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/bootstrap/3.3.5/js/bootstrap.min.js'></script>
     <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/blueimp-gallery/2.16.0/js/blueimp-gallery.min.js'></script>
+    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.iframe-transport.js'></script>
     <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload.js'></script>
     <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-process.js'></script>
     <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-image.js'></script>
