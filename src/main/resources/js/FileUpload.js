@@ -4,9 +4,10 @@
 (function () {
     'use strict';
 
-    var url = 'upload';
+    var isOnGitHub = window.location.hostname === 'blueimp.github.io',
+        url = isOnGitHub ? '//jquery-file-upload.appspot.com/' : 'server/php/';
 
-    angular.module('FileUpload', [
+    angular.module('demo', [
             'blueimp.fileupload'
         ])
         .config([
@@ -17,44 +18,48 @@
                     /\/[^\/]*$/,
                     '/cors/result.html?%s'
                 );
-
-                angular.extend(fileUploadProvider.defaults, {
-                    // Enable image resizing, except for Android and Opera,
-                    // which actually support image resizing, but fail to
-                    // send Blob objects via XHR requests:
-                    disableImageResize: /Android(?!.*Chrome)|Opera/
-                        .test(window.navigator.userAgent),
-                    maxFileSize: 999000,
-                    acceptFileTypes: /(\.|\/)(c|cpp|h)$/i
-                });
+                if (isOnGitHub) {
+                    // Demo settings:
+                    angular.extend(fileUploadProvider.defaults, {
+                        // Enable image resizing, except for Android and Opera,
+                        // which actually support image resizing, but fail to
+                        // send Blob objects via XHR requests:
+                        disableImageResize: /Android(?!.*Chrome)|Opera/
+                            .test(window.navigator.userAgent),
+                        maxFileSize: 999000,
+                        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+                    });
+                }
             }
         ])
 
-        .controller('FileUploadController', [
+        .controller('DemoFileUploadController', [
             '$scope', '$http', '$filter', '$window',
             function ($scope, $http) {
                 $scope.options = {
                     url: url
                 };
-
-                $scope.loadingFiles = true;
-                $http.get(url)
-                    .then(
-                        function (response) {
-                            $scope.loadingFiles = false;
-                            $scope.queue = response.data.files || [];
-                        },
-                        function () {
-                            $scope.loadingFiles = false;
-                        }
-                    );
+                if (!isOnGitHub) {
+                    $scope.loadingFiles = true;
+                    $http.get(url)
+                        .then(
+                            function (response) {
+                                $scope.loadingFiles = false;
+                                $scope.queue = response.data.files || [];
+                            },
+                            function () {
+                                $scope.loadingFiles = false;
+                            }
+                        );
+                }
             }
         ])
 
         .controller('FileDestroyController', [
             '$scope', '$http',
             function ($scope, $http) {
-                var file = $scope.file, state;
+                var file = $scope.file,
+                    state;
                 if (file.url) {
                     file.$state = function () {
                         return state;
@@ -81,4 +86,5 @@
                 }
             }
         ]);
+
 }());
