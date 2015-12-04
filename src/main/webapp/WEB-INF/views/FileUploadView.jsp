@@ -54,7 +54,7 @@
     <p class="lead">Web utility to validate student tests</p>
 
     <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="/" method="POST" enctype="multipart/form-data" data-ng-app="demo"
+    <form id="fileupload" action="<%=request.getContextPath()%>/upload/" method="POST" enctype="multipart/form-data" data-ng-app="file-upload"
           data-ng-controller="FileUploadController" data-file-upload="options"
           data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->

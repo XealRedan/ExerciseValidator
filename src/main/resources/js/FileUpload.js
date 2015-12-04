@@ -4,12 +4,9 @@
 (function () {
     'use strict';
 
-    var isOnGitHub = window.location.hostname === 'blueimp.github.io',
-        url = isOnGitHub ? '//jquery-file-upload.appspot.com/' : '/upload/';
+    var url = '/upload/';
 
-    angular.module('demo', [
-            'blueimp.fileupload'
-        ])
+    angular.module('file-upload', ['blueimp.fileupload'])
         .config([
             '$httpProvider', 'fileUploadProvider',
             function ($httpProvider, fileUploadProvider) {
@@ -18,18 +15,16 @@
                     /\/[^\/]*$/,
                     '/cors/result.html?%s'
                 );
-                if (isOnGitHub) {
-                    // Demo settings:
-                    angular.extend(fileUploadProvider.defaults, {
-                        // Enable image resizing, except for Android and Opera,
-                        // which actually support image resizing, but fail to
-                        // send Blob objects via XHR requests:
-                        disableImageResize: /Android(?!.*Chrome)|Opera/
-                            .test(window.navigator.userAgent),
-                        maxFileSize: 999000,
-                        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-                    });
-                }
+
+                angular.extend(fileUploadProvider.defaults, {
+                    // Enable image resizing, except for Android and Opera,
+                    // which actually support image resizing, but fail to
+                    // send Blob objects via XHR requests:
+                    disableImageResize: /Android(?!.*Chrome)|Opera/
+                        .test(window.navigator.userAgent),
+                    maxFileSize: 999000,
+                    acceptFileTypes: /(\.|\/)(c|cpp|h|hpp)$/i
+                });
             }
         ])
 
@@ -39,19 +34,18 @@
                 $scope.options = {
                     url: url
                 };
-                if (!isOnGitHub) {
-                    $scope.loadingFiles = true;
-                    $http.get(url)
-                        .then(
-                            function (response) {
-                                $scope.loadingFiles = false;
-                                $scope.queue = response.data.files || [];
-                            },
-                            function () {
-                                $scope.loadingFiles = false;
-                            }
-                        );
-                }
+
+                $scope.loadingFiles = true;
+                $http.get(url)
+                    .then(
+                        function (response) {
+                            $scope.loadingFiles = false;
+                            $scope.queue = response.data.files || [];
+                        },
+                        function () {
+                            $scope.loadingFiles = false;
+                        }
+                    );
             }
         ])
 
