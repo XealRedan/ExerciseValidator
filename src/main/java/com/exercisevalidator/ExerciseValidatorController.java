@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -65,15 +66,15 @@ public class ExerciseValidatorController {
     LinkedList<FileMeta> upload(MultipartHttpServletRequest request, HttpServletResponse response) {
         final LinkedList<FileMeta> files = new LinkedList<>();
 
-        Iterator<String> itr =  request.getFileNames();
+        Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
         MultipartFile mpf = null;
 
-        while(itr.hasNext()){
-            mpf = request.getFile(itr.next());
+        while (itr.hasNext()) {
+            mpf = ((MultipartHttpServletRequest)request).getFile(itr.next());
 
             final FileMeta fileMeta = new FileMeta();
             fileMeta.setFileName(mpf.getOriginalFilename());
-            fileMeta.setFileSize(mpf.getSize()/1024+" kB");
+            fileMeta.setFileSize(mpf.getSize() / 1024 + " kB");
             fileMeta.setFileType(mpf.getContentType());
 
             try {
