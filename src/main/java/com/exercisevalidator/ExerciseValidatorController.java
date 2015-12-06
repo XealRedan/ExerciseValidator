@@ -24,10 +24,7 @@ package com.exercisevalidator;
 import com.exercisevalidator.model.FileMeta;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -37,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Controller for exercise validator
@@ -45,6 +43,8 @@ import java.util.LinkedList;
 public class ExerciseValidatorController {
 
     private static final String OUTPUT_FILEPATH = "D:/tmp/";
+
+    private final LinkedList<FileMeta> files = new LinkedList<>();
 
     /**
      * Called on index page, returns the file upload page
@@ -63,12 +63,12 @@ public class ExerciseValidatorController {
      */
     @RequestMapping(value="/upload/", method = RequestMethod.POST)
     public @ResponseBody
-    LinkedList<FileMeta> upload(HttpServletRequest request, HttpServletResponse response) {
+    LinkedList<FileMeta> postUpload(HttpServletRequest request, HttpServletResponse response) {
         if(!(request instanceof MultipartHttpServletRequest)) {
             return null;
         }
 
-        final LinkedList<FileMeta> files = new LinkedList<>();
+//        final LinkedList<FileMeta> files = new LinkedList<>();
 
         Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
         MultipartFile mpf = null;

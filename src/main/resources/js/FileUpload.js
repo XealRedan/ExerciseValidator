@@ -4,7 +4,7 @@
 (function () {
     'use strict';
 
-    var url = '/upload/';
+    var url = '/ExerciseValidator/upload/';
 
     angular.module('file-upload', ['blueimp.fileupload'])
         .config([
@@ -28,7 +28,7 @@
             }
         ])
 
-        .controller('DemoFileUploadController', [
+        .controller('FileUploadController', [
             '$scope', '$http', '$filter', '$window',
             function ($scope, $http) {
                 $scope.options = {
