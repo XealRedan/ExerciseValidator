@@ -59,6 +59,10 @@
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>Cancel upload</span>
                 </button>
+                <a href="<%=request.getContextPath()%>/validate/" role="button" class="btn btn-success disabled">
+                    <i class="glyphicon glyphicon-ok"></i>
+                    <span>Validate</span>
+                </a>
                 <!-- The global file processing state -->
                 <span class="fileupload-process"></span>
             </div>

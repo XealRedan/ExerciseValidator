@@ -46,8 +46,13 @@ public class ExerciseValidatorController {
     private static final String FILES_URL = "/files/";
     private static final String DELETE_URL = "/delete/";
 
+    private static final String VALIDATE_URL = "/validate/";
+
     private static final String OUTPUT_FILEPATH = "D:/tmp/";
 
+    private final ExerciseValidator exerciseValidator = new ExerciseValidator();
+
+    // Model
     private FileMetaList files = new FileMetaList();
 
     /**
@@ -161,5 +166,11 @@ public class ExerciseValidatorController {
         answer += "]}";
 
         return answer;
+    }
+
+    @RequestMapping(value = "/validate/", method = RequestMethod.GET)
+    public String validate() {
+        // TODO
+        return "FileUploadView";
     }
 }
