@@ -33,8 +33,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Iterator;
 
 /**
@@ -88,32 +91,58 @@ public class ExerciseValidatorController {
                 e.printStackTrace();
             }
 
-            files.getFiles().add(fileMeta);
+            this.files.getFiles().add(fileMeta);
         }
 
-        return files;
+        return this.files;
     }
 
-    @RequestMapping(value="/upload/", method = RequestMethod.GET)
+    @RequestMapping(value="/files/{file}", method = RequestMethod.GET)
     public @ResponseBody
-    FileMetaList getUpload(HttpServletRequest request, HttpServletResponse response) {
-        return files;
+    FileMeta getFile(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @PathVariable("file") String file) {
+        for(FileMeta f : this.files.getFiles()) {
+            if(f.getName().equals(file))
+                return f;
+        }
+        return null;
     }
 
-    @RequestMapping(value="/delete/{file}", method = RequestMethod.DELETE)
+    @RequestMapping(value="/files/", method = RequestMethod.GET)
+    public @ResponseBody
+    FileMetaList getFiles(HttpServletRequest request, HttpServletResponse response) {
+        return this.files;
+    }
+
+    @RequestMapping(value="/delete/{file:.+}", method = RequestMethod.DELETE)
     public @ResponseBody
     String deleteFile(
             HttpServletRequest request,
             HttpServletResponse response,
-            @PathVariable("file") String file) {
+            @PathVariable("file") String fileName) {
+        boolean success = false;
+
         // Delete the file
-        // TODO
+        final File file = new File(OUTPUT_FILEPATH + fileName);
+        if(file.exists()) {
+            success = file.delete();
+        }
+
+        // Remove it from the file meta list (if present)
+        for(int idx = 0; idx < this.files.getFiles().size(); idx++) {
+            if(this.files.getFiles().get(idx).getName().equals(fileName)) {
+                this.files.getFiles().remove(idx);
+                break;
+            }
+        }
 
         // Inform that the file has been deleted
         String answer = "{\"files\": [\n";
 
         answer += "\t{\n";
-        answer += "\t\t\"" + file + "\": true\n";
+        answer += "\t\t\"" + file + "\": " + Boolean.toString(success) + "\n";
         answer += "\t}\n";
         answer += "]}";
 

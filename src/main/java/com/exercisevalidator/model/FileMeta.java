@@ -31,10 +31,6 @@ import java.io.Serializable;
 @JsonIgnoreProperties({"bytes"})
 public class FileMeta implements Serializable {
 
-    private static final String ACCEPTED = "accepted";
-    private static final String PENDING = "pending";
-    private static final String REJECTED = "rejected";
-
     // File meta data
     private String name;
     private String size;
