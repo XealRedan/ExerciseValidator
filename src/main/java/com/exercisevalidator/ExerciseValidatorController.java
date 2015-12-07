@@ -22,12 +22,12 @@ package com.exercisevalidator;
 
 
 import com.exercisevalidator.model.FileMeta;
+import com.exercisevalidator.model.FileMetaList;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * Controller for exercise validator
@@ -46,7 +45,7 @@ public class ExerciseValidatorController {
 
     private static final String OUTPUT_FILEPATH = "D:/tmp/";
 
-    private LinkedList<FileMeta> files = new LinkedList<>();
+    private FileMetaList files = new FileMetaList();
 
     /**
      * Called on index page, returns the file upload page
@@ -65,19 +64,20 @@ public class ExerciseValidatorController {
      */
     @RequestMapping(value="/upload/", method = RequestMethod.POST, headers = "content-type=multipart/form-data")
     public @ResponseBody
-    LinkedList<FileMeta> postUpload(
+    FileMetaList postUpload(
             MultipartHttpServletRequest request,
-            HttpServletResponse response,
-            @RequestParam("files[]") MultipartFile mpf) {
+            HttpServletResponse response) {
         Iterator<String> itr = request.getFileNames();
 
         while (itr.hasNext()) {
-            mpf = request.getFile(itr.next());
+            MultipartFile mpf = request.getFile(itr.next());
 
             final FileMeta fileMeta = new FileMeta();
             fileMeta.setName(mpf.getOriginalFilename());
             fileMeta.setSize(mpf.getSize() / 1024 + " kB");
             fileMeta.setType(mpf.getContentType());
+            fileMeta.setUrl(request.getContextPath() + "/files/" + mpf.getOriginalFilename());
+            fileMeta.setDeleteUrl(request.getContextPath() + "/delete/" + mpf.getOriginalFilename());
 
             try {
                 fileMeta.setBytes(mpf.getBytes());
@@ -88,7 +88,7 @@ public class ExerciseValidatorController {
                 e.printStackTrace();
             }
 
-            files.add(fileMeta);
+            files.getFiles().add(fileMeta);
         }
 
         return files;
@@ -96,7 +96,27 @@ public class ExerciseValidatorController {
 
     @RequestMapping(value="/upload/", method = RequestMethod.GET)
     public @ResponseBody
-    LinkedList<FileMeta> getUpload(HttpServletRequest request, HttpServletResponse response) {
+    FileMetaList getUpload(HttpServletRequest request, HttpServletResponse response) {
         return files;
+    }
+
+    @RequestMapping(value="/delete/{file}", method = RequestMethod.DELETE)
+    public @ResponseBody
+    String deleteFile(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @PathVariable("file") String file) {
+        // Delete the file
+        // TODO
+
+        // Inform that the file has been deleted
+        String answer = "{\"files\": [\n";
+
+        answer += "\t{\n";
+        answer += "\t\t\"" + file + "\": true\n";
+        answer += "\t}\n";
+        answer += "]}";
+
+        return answer;
     }
 }
