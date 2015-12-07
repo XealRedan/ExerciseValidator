@@ -39,6 +39,7 @@ public class FileMeta implements Serializable {
     private String thumbnailUrl;
 
     // File control data
+    private String error;
     private String deleteUrl;
     private String deleteType = "DELETE";
 
@@ -107,6 +108,14 @@ public class FileMeta implements Serializable {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     public String getDeleteUrl() {

@@ -46,6 +46,10 @@ import java.util.Iterator;
 @Controller
 public class ExerciseValidatorController {
 
+    private static final String UPLOAD_URL = "/upload/";
+    private static final String FILES_URL = "/files/";
+    private static final String DELETE_URL = "/delete/";
+
     private static final String OUTPUT_FILEPATH = "D:/tmp/";
 
     private FileMetaList files = new FileMetaList();
@@ -70,34 +74,46 @@ public class ExerciseValidatorController {
     FileMetaList postUpload(
             MultipartHttpServletRequest request,
             HttpServletResponse response) {
-        Iterator<String> itr = request.getFileNames();
+        synchronized (this.files) {
+            Iterator<String> itr = request.getFileNames();
 
-        while (itr.hasNext()) {
-            MultipartFile mpf = request.getFile(itr.next());
+            while (itr.hasNext()) {
+                MultipartFile mpf = request.getFile(itr.next());
 
-            final FileMeta fileMeta = new FileMeta();
-            fileMeta.setName(mpf.getOriginalFilename());
-            fileMeta.setSize(mpf.getSize() / 1024 + " kB");
-            fileMeta.setType(mpf.getContentType());
-            fileMeta.setUrl(request.getContextPath() + "/files/" + mpf.getOriginalFilename());
-            fileMeta.setDeleteUrl(request.getContextPath() + "/delete/" + mpf.getOriginalFilename());
+                final FileMeta fileMeta = new FileMeta();
+                fileMeta.setName(mpf.getOriginalFilename());
+                fileMeta.setSize(mpf.getSize() / 1024 + " kB");
+                fileMeta.setType(mpf.getContentType());
+                fileMeta.setUrl(request.getContextPath() + FILES_URL + mpf.getOriginalFilename());
+                fileMeta.setDeleteUrl(request.getContextPath() + DELETE_URL + mpf.getOriginalFilename());
 
-            try {
-                fileMeta.setBytes(mpf.getBytes());
+                try {
+                    final String path = OUTPUT_FILEPATH + request.getSession().getId() + "/";
 
-                FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(OUTPUT_FILEPATH + mpf.getOriginalFilename()));
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                    // Create the directory if it does not exist
+                    final File directory = new File(path);
+                    if(!directory.exists()) {
+                        directory.mkdir();
+                    }
+
+                    // Write the file
+                    fileMeta.setBytes(mpf.getBytes());
+
+                    FileCopyUtils.copy(mpf.getBytes(),
+                            new FileOutputStream(
+                                    path + mpf.getOriginalFilename()));
+                } catch (IOException e) {
+                    fileMeta.setError(e.getMessage());
+                }
+
+                this.files.getFiles().add(fileMeta);
             }
 
-            this.files.getFiles().add(fileMeta);
+            return this.files;
         }
-
-        return this.files;
     }
 
-    @RequestMapping(value="/files/{file}", method = RequestMethod.GET)
+    @RequestMapping(value = FILES_URL + "{file}", method = RequestMethod.GET)
     public @ResponseBody
     FileMeta getFile(
             HttpServletRequest request,
@@ -110,22 +126,24 @@ public class ExerciseValidatorController {
         return null;
     }
 
-    @RequestMapping(value="/files/", method = RequestMethod.GET)
+    @RequestMapping(value = FILES_URL, method = RequestMethod.GET)
     public @ResponseBody
     FileMetaList getFiles(HttpServletRequest request, HttpServletResponse response) {
         return this.files;
     }
 
-    @RequestMapping(value="/delete/{file:.+}", method = RequestMethod.DELETE)
+    @RequestMapping(value = DELETE_URL + "{file:.+}", method = RequestMethod.DELETE)
     public @ResponseBody
     String deleteFile(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable("file") String fileName) {
+        final String path = OUTPUT_FILEPATH + request.getSession().getId() + "/";
+
         boolean success = false;
 
         // Delete the file
-        final File file = new File(OUTPUT_FILEPATH + fileName);
+        final File file = new File(path + fileName);
         if(file.exists()) {
             success = file.delete();
         }
@@ -142,7 +160,7 @@ public class ExerciseValidatorController {
         String answer = "{\"files\": [\n";
 
         answer += "\t{\n";
-        answer += "\t\t\"" + file + "\": " + Boolean.toString(success) + "\n";
+        answer += "\t\t\"" + fileName + "\": " + Boolean.toString(success) + "\n";
         answer += "\t}\n";
         answer += "]}";
 

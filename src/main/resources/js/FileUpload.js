@@ -24,7 +24,6 @@
     'use strict';
 
     var uploadUrl = '/ExerciseValidator/upload/';
-    var deleteUrl = '/ExerciseValidator/delete/';
 
     angular.module('file-upload', ['blueimp.fileupload'])
         .config([
