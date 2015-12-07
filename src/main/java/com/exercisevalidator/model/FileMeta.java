@@ -31,9 +31,9 @@ import java.io.Serializable;
 @JsonIgnoreProperties({"bytes"})
 public class FileMeta implements Serializable {
 
-    private String fileName;
-    private String fileSize;
-    private String fileType;
+    private String name;
+    private String size;
+    private String type;
 
     private byte[] bytes;
 
@@ -41,48 +41,48 @@ public class FileMeta implements Serializable {
      * Gets the file name
      * @return the file name
      */
-    public String getFileName() {
-        return fileName;
+    public String getName() {
+        return name;
     }
 
     /**
      * Sets the file name
-     * @param fileName the file name
+     * @param name the file name
      */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
      * Gets the file size
      * @return the file size
      */
-    public String getFileSize() {
-        return fileSize;
+    public String getSize() {
+        return size;
     }
 
     /**
      * Sets the file size
-     * @param fileSize the file size
+     * @param size the file size
      */
-    public void setFileSize(String fileSize) {
-        this.fileSize = fileSize;
+    public void setSize(String size) {
+        this.size = size;
     }
 
     /**
      * Gets the file type
      * @return the file type
      */
-    public String getFileType() {
-        return fileType;
+    public String getType() {
+        return type;
     }
 
     /**
      * Sets the file type
-     * @param fileType the file type
+     * @param type the file type
      */
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**

@@ -29,24 +29,6 @@
     <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/css/jquery.fileupload.css'>
     <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/css/jquery.fileupload-ui.css'>
     <link rel='stylesheet' href='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/css/style.css'>
-
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery/2.1.4/jquery.min.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/angularjs/1.4.8/angular.min.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-ui/1.11.4/jquery-ui.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/blueimp-load-image/1.14.0/js/load-image.all.min.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/blueimp-canvas-to-blob/2.1.1/js/canvas-to-blob.min.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/bootstrap/3.3.5/js/bootstrap.min.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/blueimp-gallery/2.16.0/js/blueimp-gallery.min.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.iframe-transport.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-process.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-image.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-audio.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-video.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-validate.js'></script>
-    <script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-angular.js'></script>
-    <!--script type='text/javascript' src='<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/app.js'></script-->
-    <script type='text/javascript' src='<%=request.getContextPath()%>/js/FileUpload.js'></script>
 </head>
 <body>
 <div class="container">
@@ -58,7 +40,7 @@
     <form id="fileupload"
           action="<%=request.getContextPath()%>/upload/"
           method="POST" enctype="multipart/form-data" data-ng-app="file-upload"
-          data-ng-controller="FileUploadController" data-file-upload="options"
+          data-ng-controller="InternalFileUploadController" data-file-upload="options"
           data-ng-class="{'fileupload-processing': processing() || loadingFiles}">
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
@@ -142,5 +124,23 @@
         </table>
     </form>
 </div>
+
+<script src="<%=request.getContextPath()%>/webjars/jquery/2.1.4/jquery.min.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/angularjs/1.4.8/angular.min.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-ui/1.11.4/jquery-ui.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/blueimp-load-image/1.14.0/js/load-image.all.min.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/blueimp-canvas-to-blob/2.1.1/js/canvas-to-blob.min.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/blueimp-gallery/2.16.0/js/blueimp-gallery.min.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.iframe-transport.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-process.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-image.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-audio.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-video.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-validate.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-angular.js"></script>
+<script src="<%=request.getContextPath()%>/js/FileUpload.js"></script>
+
 </body>
 </html>

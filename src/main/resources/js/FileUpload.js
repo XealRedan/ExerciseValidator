@@ -1,42 +1,52 @@
+/*
+ * #%L
+ * Exercise validator
+ * %%
+ * Copyright (C) 2015 Alexandre Lombard
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 /* jshint nomen:false */
 /* global window, angular */
 
 (function () {
     'use strict';
 
-    var url = '/upload/';
+    var uploadUrl = '/ExerciseValidator/upload/';
+    var deleteUrl = '/ExerciseValidator/delete/';
 
     angular.module('file-upload', ['blueimp.fileupload'])
         .config([
             '$httpProvider', 'fileUploadProvider',
             function ($httpProvider, fileUploadProvider) {
-                delete $httpProvider.defaults.headers.common['X-Requested-With'];
-                fileUploadProvider.defaults.redirect = window.location.href.replace(
-                    /\/[^\/]*$/,
-                    '/cors/result.html?%s'
-                );
-
                 angular.extend(fileUploadProvider.defaults, {
-                    // Enable image resizing, except for Android and Opera,
-                    // which actually support image resizing, but fail to
-                    // send Blob objects via XHR requests:
-                    disableImageResize: /Android(?!.*Chrome)|Opera/
-                        .test(window.navigator.userAgent),
+                    disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
                     maxFileSize: 999000,
                     acceptFileTypes: /(\.|\/)(c|cpp|h|hpp)$/i
                 });
             }
         ])
 
-        .controller('DemoFileUploadController', [
+        .controller('InternalFileUploadController', [
             '$scope', '$http', '$filter', '$window',
             function ($scope, $http) {
                 $scope.options = {
-                    url: url
+                    url: uploadUrl
                 };
 
                 $scope.loadingFiles = true;
-                $http.get(url)
+                $http.get(uploadUrl)
                     .then(
                         function (response) {
                             $scope.loadingFiles = false;

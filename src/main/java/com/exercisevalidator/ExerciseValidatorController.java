@@ -46,6 +46,8 @@ public class ExerciseValidatorController {
 
     private static final String OUTPUT_FILEPATH = "D:/tmp/";
 
+    private LinkedList<FileMeta> files = new LinkedList<>();
+
     /**
      * Called on index page, returns the file upload page
      * @return the file upload page
@@ -61,25 +63,21 @@ public class ExerciseValidatorController {
      * @param response the response
      * @return TBD
      */
-    @RequestMapping(value="/upload/", method = RequestMethod.POST)
+    @RequestMapping(value="/upload/", method = RequestMethod.POST, headers = "content-type=multipart/form-data")
     public @ResponseBody
-    LinkedList<FileMeta> upload(HttpServletRequest request, HttpServletResponse response) {
-        if(!(request instanceof MultipartHttpServletRequest)) {
-            return null;
-        }
-
-        final LinkedList<FileMeta> files = new LinkedList<>();
-
-        Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
-        MultipartFile mpf = null;
+    LinkedList<FileMeta> postUpload(
+            MultipartHttpServletRequest request,
+            HttpServletResponse response,
+            @RequestParam("files[]") MultipartFile mpf) {
+        Iterator<String> itr = request.getFileNames();
 
         while (itr.hasNext()) {
-            mpf = ((MultipartHttpServletRequest)request).getFile(itr.next());
+            mpf = request.getFile(itr.next());
 
             final FileMeta fileMeta = new FileMeta();
-            fileMeta.setFileName(mpf.getOriginalFilename());
-            fileMeta.setFileSize(mpf.getSize() / 1024 + " kB");
-            fileMeta.setFileType(mpf.getContentType());
+            fileMeta.setName(mpf.getOriginalFilename());
+            fileMeta.setSize(mpf.getSize() / 1024 + " kB");
+            fileMeta.setType(mpf.getContentType());
 
             try {
                 fileMeta.setBytes(mpf.getBytes());
@@ -93,6 +91,12 @@ public class ExerciseValidatorController {
             files.add(fileMeta);
         }
 
+        return files;
+    }
+
+    @RequestMapping(value="/upload/", method = RequestMethod.GET)
+    public @ResponseBody
+    LinkedList<FileMeta> getUpload(HttpServletRequest request, HttpServletResponse response) {
         return files;
     }
 }
