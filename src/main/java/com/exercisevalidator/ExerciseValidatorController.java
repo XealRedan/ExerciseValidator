@@ -21,6 +21,7 @@ package com.exercisevalidator;
  */
 
 
+import com.exercisevalidator.model.ExerciseData;
 import com.exercisevalidator.model.FileMeta;
 import com.exercisevalidator.model.FileMetaList;
 import com.exercisevalidator.model.ValidationDataList;
@@ -29,6 +30,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,11 +62,16 @@ public class ExerciseValidatorController {
     @RequestMapping(
             value = "/",
             method = RequestMethod.GET)
-    public String showExerciseValidator(
+    public ModelAndView showExerciseValidator(
             @RequestParam(value = "id", required = false) int exerciseId) {
-        // TODO Get the exercise data and send it as attributes to the view if present
+        final ModelAndView fileUploadView = new ModelAndView("FileUploadView");
 
-        return "FileUploadView";
+        final ExerciseData exerciseData = ExerciseMap.getInstance().getExerciseData(exerciseId);
+        if(exerciseData != null) {
+            fileUploadView.getModel().put("exerciseData", exerciseData);
+        }
+
+        return fileUploadView;
     }
 
     /**
