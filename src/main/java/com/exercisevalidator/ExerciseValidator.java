@@ -111,7 +111,33 @@ public class ExerciseValidator {
 
         // Run the tests in a sandbox with each input file and compare it with output files
         // TODO Test the results for every input file
-        final ProcessBuilder executionProcessBuilder = new ProcessBuilder("systrace -a main");
+        for(int idx = 0; idx < inputFiles.size(); idx++) {
+            final File inputFile = inputFiles.get(idx);
+            final File outputFile = outputFiles.get(idx);
+
+            final ProcessBuilder executionProcessBuilder = new ProcessBuilder(
+                    "systrace -a main < " + inputFile.getAbsolutePath() + " | ./compare " + outputFile.getAbsolutePath());
+
+            // Compare return a 0 value if it matches
+            final Process compareProcess = executionProcessBuilder.start();
+
+            int compareReturnVal = -1;
+            try {
+                compareReturnVal = compareProcess.waitFor();
+            } catch (InterruptedException e) {
+                //
+            }
+
+            final ValidationData validationData = new ValidationData();
+            validationData.setExerciseId(this.exerciseId);
+            validationData.setInputFile(inputFile.getName());
+            validationData.setOutputFile(outputFile.getName());
+            validationData.setSuccessRate(compareReturnVal == 0 ? 1 : 0);
+            // TODO Grab a more explicit error message from the standard output of compare
+            validationData.setError(compareReturnVal == 0 ? "SUCCESS" : "FAILURE");
+
+            this.validationDataList.getValidationDataList().add(validationData);
+        }
     }
 
     public File getWorkingDirectory() {
