@@ -23,6 +23,7 @@ package com.exercisevalidator;
 
 import com.exercisevalidator.model.FileMeta;
 import com.exercisevalidator.model.FileMetaList;
+import com.exercisevalidator.model.ValidationDataList;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -49,14 +50,8 @@ public class ExerciseValidatorController {
 
     private static final String OUTPUT_FILEPATH = "D:/tmp/";
 
-    private final ExerciseValidator exerciseValidator = new ExerciseValidator();
-
     // Model
     private FileMetaList files = new FileMetaList();
-
-    public ExerciseValidatorController() {
-        // TODO Build the map of exercises
-    }
 
     /**
      * Called on index page, returns the file upload page
@@ -178,8 +173,11 @@ public class ExerciseValidatorController {
 
     @RequestMapping(value = VALIDATE_URL, method = RequestMethod.GET)
     public @ResponseBody
-    String validate(@RequestParam("id") int exerciseId) {
-        // TODO Generate a list of validation data results
-        return "FileUploadView";
+    ValidationDataList validate(@RequestParam("id") int exerciseId) throws IOException {    // TODO Remove this exception from method signature
+        final ExerciseValidator validator = new ExerciseValidator(exerciseId);
+
+        validator.validate();
+
+        return validator.getValidationDataList();
     }
 }

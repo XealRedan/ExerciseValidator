@@ -21,9 +21,16 @@ package com.exercisevalidator.model;
  */
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.*;
+
 /**
  * Contains data about an exercise
  */
+@JsonIgnoreProperties({"inputFiles", "outputFiles", "valid"})
 public class ExerciseData {
     /** The identifier of the exercise */
     private int id;
@@ -31,6 +38,83 @@ public class ExerciseData {
     private String title;
     /** The description of the exercise */
     private String description;
+
+    /** Set to true if the exercise is valid (files not found for instance) */
+    private boolean valid = false;
+
+    private List<File> inputFiles = new ArrayList<>();
+    private List<File> outputFiles = new ArrayList<>();
+
+    public ExerciseData() {
+        //
+    }
+
+    /**
+     * Parse a directory to extract data like input files, output files, etc.
+     * Id is in the name of the directory (it is the last number, after _)
+     * Input files must have "IN_X_" at the beginning with X a unique number.
+     * Output files must have "OUT_X_" at the beginning with X a unique number related to an input file.
+     * Title, description and other meta data are not mandatory and can be found as strings in a json file with tags
+     * "title", "description" and so on.
+     * @param directory the directory to parse
+     */
+    public ExerciseData(File directory) {
+        try {
+            // Parse the exercise ID
+            int underscoreIndex = directory.getName().lastIndexOf('_');
+
+            if(underscoreIndex == -1 || underscoreIndex + 1 >= directory.getName().length()) {
+                this.valid = false;
+                return;
+            }
+
+            final String exerciseIdStr =
+                    directory.getName().substring(underscoreIndex + 1, directory.getName().length());
+
+            this.id = Integer.parseInt(exerciseIdStr);
+
+            // Get the input/output files in an ordered manner
+            final SortedMap<Integer, File> inputFilesMap = new TreeMap<>();
+            final SortedMap<Integer, File> outputFilesMap = new TreeMap<>();
+            for(File file : directory.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.startsWith("IN_") || name.startsWith("OUT_");
+                }
+            })) {
+                final String[] splittedInputFileName = file.getName().split("_");
+                if(splittedInputFileName.length < 2) {
+                    this.valid = false;
+                    return;
+                }
+
+                if(splittedInputFileName[0].equals("IN")) {
+                    inputFilesMap.put(Integer.parseInt(splittedInputFileName[1]), file);
+                } else if(splittedInputFileName[0].equals("OUT")) {
+                    outputFilesMap.put(Integer.parseInt(splittedInputFileName[1]), file);
+                } else {
+                    this.valid = false;
+                    return;
+                }
+            }
+
+            for(Map.Entry<Integer, File> inputFile : inputFilesMap.entrySet()) {
+                final File outputFile = outputFilesMap.get(inputFile.getKey());
+
+                if(outputFile == null) {
+                    this.valid = false;
+                    return;
+                }
+
+                this.inputFiles.add(inputFile.getValue());
+                this.outputFiles.add(outputFile);
+            }
+
+            // TODO Parse the eventual meta data file
+        } catch (NumberFormatException e) {
+            this.valid = false;
+        }
+    }
 
     public int getId() {
         return id;
@@ -54,5 +138,17 @@ public class ExerciseData {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<File> getInputFiles() {
+        return inputFiles;
+    }
+
+    public List<File> getOutputFiles() {
+        return outputFiles;
+    }
+
+    public boolean isValid() {
+        return valid;
     }
 }

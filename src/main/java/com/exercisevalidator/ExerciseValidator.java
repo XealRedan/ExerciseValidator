@@ -20,7 +20,6 @@ package com.exercisevalidator;
  * #L%
  */
 
-
 import com.exercisevalidator.model.ValidationData;
 import com.exercisevalidator.model.ValidationDataList;
 
@@ -41,27 +40,22 @@ public class ExerciseValidator {
 
     private List<File> sourceFiles = new ArrayList<>();
 
-    /** The list of input files for validation */
-    private List<File> inputFiles = new ArrayList<>();
-
-    /** The list of expected output files */
-    private List<File> outputFiles = new ArrayList<>();
-
     /** The list of validation data produced by the validate() function */
     private ValidationDataList validationDataList = new ValidationDataList();
 
     public ExerciseValidator(int exerciseId) {
         this.exerciseId = exerciseId;
-
-        // TODO Find the input/output files according to the exercise ID
     }
 
-    public void validate() throws IOException, InterruptedException {
+    public void validate() throws IOException {
         if(this.sourceFiles == null)
             throw new IllegalArgumentException("No input files");
 
         if(this.workingDirectory == null)
             throw new IllegalArgumentException("Working directory is not defined");
+
+        if(ExerciseMap.getInstance().getExerciseData(this.exerciseId) == null)
+            throw new IllegalArgumentException("No exercise found with id: " + this.exerciseId);
 
         // If there is already a compiled executable, it is deleted
         final File oldMain = new File(this.workingDirectory.getAbsolutePath() + "/main");
@@ -89,15 +83,23 @@ public class ExerciseValidator {
         }
         s.close();
 
-        final int result = compilationProcess.waitFor();
+        int result = -1;
+        try {
+            result = compilationProcess.waitFor();
+        } catch (InterruptedException e) {
+            //
+        }
+
+        final List<File> inputFiles = ExerciseMap.getInstance().getExerciseData(this.exerciseId).getInputFiles();
+        final List<File> outputFiles = ExerciseMap.getInstance().getExerciseData(this.exerciseId).getOutputFiles();
 
         // If the code does not compile, all validation results will have a success rate of 0
         if(result != 0) {
-            for(int idx = 0; idx < this.inputFiles.size(); idx++) {
+            for(int idx = 0; idx < inputFiles.size(); idx++) {
                 final ValidationData validationData = new ValidationData();
                 validationData.setExerciseId(this.exerciseId);
-                validationData.setInputFile(this.inputFiles.get(idx).getName());
-                validationData.setOutputFile(this.outputFiles.get(idx).getName());
+                validationData.setInputFile(inputFiles.get(idx).getName());
+                validationData.setOutputFile(outputFiles.get(idx).getName());
                 validationData.setSuccessRate(0);
                 validationData.setError(text.toString());
 
@@ -108,6 +110,7 @@ public class ExerciseValidator {
         }
 
         // Run the tests in a sandbox with each input file and compare it with output files
+        // TODO Test the results for every input file
         final ProcessBuilder executionProcessBuilder = new ProcessBuilder("systrace -a main");
     }
 
@@ -125,14 +128,6 @@ public class ExerciseValidator {
 
     public void setSourceFiles(List<File> sourceFiles) {
         this.sourceFiles = sourceFiles;
-    }
-
-    public List<File> getOutputFiles() {
-        return outputFiles;
-    }
-
-    public List<File> getInputFiles() {
-        return inputFiles;
     }
 
     public ValidationDataList getValidationDataList() {
