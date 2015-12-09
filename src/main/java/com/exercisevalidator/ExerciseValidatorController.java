@@ -45,7 +45,6 @@ public class ExerciseValidatorController {
     private static final String UPLOAD_URL = "/upload/";
     private static final String FILES_URL = "/files/";
     private static final String DELETE_URL = "/delete/";
-
     private static final String VALIDATE_URL = "/validate/";
 
     private static final String OUTPUT_FILEPATH = "D:/tmp/";
@@ -55,12 +54,21 @@ public class ExerciseValidatorController {
     // Model
     private FileMetaList files = new FileMetaList();
 
+    public ExerciseValidatorController() {
+        // TODO Build the map of exercises
+    }
+
     /**
      * Called on index page, returns the file upload page
      * @return the file upload page
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showExerciseValidator() {
+    @RequestMapping(
+            value = "/",
+            method = RequestMethod.GET)
+    public String showExerciseValidator(
+            @RequestParam(value = "id", required = false) int exerciseId) {
+        // TODO Get the exercise data and send it as attributes to the view if present
+
         return "FileUploadView";
     }
 
@@ -70,7 +78,7 @@ public class ExerciseValidatorController {
      * @param response the response
      * @return TBD
      */
-    @RequestMapping(value="/upload/", method = RequestMethod.POST, headers = "content-type=multipart/form-data")
+    @RequestMapping(value = UPLOAD_URL, method = RequestMethod.POST, headers = "content-type=multipart/form-data")
     public @ResponseBody
     FileMetaList postUpload(
             MultipartHttpServletRequest request,
@@ -168,9 +176,10 @@ public class ExerciseValidatorController {
         return answer;
     }
 
-    @RequestMapping(value = "/validate/", method = RequestMethod.GET)
-    public String validate() {
-        // TODO
+    @RequestMapping(value = VALIDATE_URL, method = RequestMethod.GET)
+    public @ResponseBody
+    String validate(@RequestParam("id") int exerciseId) {
+        // TODO Generate a list of validation data results
         return "FileUploadView";
     }
 }

@@ -21,21 +21,20 @@ package com.exercisevalidator.model;
  */
 
 
-import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * List of file meta
+ * Contains a list of validation data
  */
-public class FileMetaList implements Serializable {
-    private List<FileMeta> files = new LinkedList<>();
+public class ValidationDataList {
+    private List<ValidationData> validationDataList = new ArrayList<>();
 
-    public List<FileMeta> getFiles() {
-        return files;
+    public List<ValidationData> getValidationDataList() {
+        return this.validationDataList;
     }
 
-    public void setFiles(List<FileMeta> files) {
-        this.files = files;
+    public void setValidationDataList(List<ValidationData> validationDataList) {
+        this.validationDataList = validationDataList;
     }
 }

@@ -21,21 +21,38 @@ package com.exercisevalidator.model;
  */
 
 
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * List of file meta
+ * Contains data about an exercise
  */
-public class FileMetaList implements Serializable {
-    private List<FileMeta> files = new LinkedList<>();
+public class ExerciseData {
+    /** The identifier of the exercise */
+    private int id;
+    /** The title of the exercise */
+    private String title;
+    /** The description of the exercise */
+    private String description;
 
-    public List<FileMeta> getFiles() {
-        return files;
+    public int getId() {
+        return id;
     }
 
-    public void setFiles(List<FileMeta> files) {
-        this.files = files;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
