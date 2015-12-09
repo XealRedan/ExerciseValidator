@@ -59,7 +59,7 @@
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>Cancel upload</span>
                 </button>
-                <a href="<%=request.getContextPath()%>/validate/" role="button" class="btn btn-success disabled">
+                <a href="<%=request.getContextPath()%>/validate/" role="button" class="btn btn-success btn-exercise-validation disabled">
                     <i class="glyphicon glyphicon-ok"></i>
                     <span>Validate</span>
                 </a>
@@ -127,6 +127,9 @@
             </tr>
         </table>
     </form>
+    <table class="table table-exercise-validation">
+
+    </table>
 </div>
 
 <script src="<%=request.getContextPath()%>/webjars/jquery/2.1.4/jquery.min.js"></script>
@@ -144,7 +147,9 @@
 <script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-video.js"></script>
 <script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-validate.js"></script>
 <script src="<%=request.getContextPath()%>/webjars/jquery-file-upload/9.10.1/js/jquery.fileupload-angular.js"></script>
+
 <script src="<%=request.getContextPath()%>/js/FileUpload.js"></script>
+<script src="<%=request.getContextPath()%>/js/ExerciseValidation.js"></script>
 
 </body>
 </html>
