@@ -116,7 +116,7 @@ public class ExerciseValidator {
             final File outputFile = outputFiles.get(idx);
 
             final ProcessBuilder executionProcessBuilder = new ProcessBuilder(
-                    "systrace -a main < " + inputFile.getAbsolutePath() + " | ./compare " + outputFile.getAbsolutePath());
+                    "systrace -a main < " + inputFile.getAbsolutePath() + " | /home/www/codingame/_corrector/compare " + outputFile.getAbsolutePath());
 
             // Compare return a 0 value if it matches
             final Process compareProcess = executionProcessBuilder.start();

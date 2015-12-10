@@ -52,7 +52,12 @@
                 <p class="alert alert-danger">Invalid exercise data received from server</p>
                 <%
             }
-        } else {
+        }else if(request.getParameter("id") != null) {
+            %>
+            <p class="alert alert-danger"><strong>Error:</strong> exercise not found</p>
+            <%
+        }
+        else {
             %>
             <p class="alert alert-warning">No exercise selected</p>
             <%

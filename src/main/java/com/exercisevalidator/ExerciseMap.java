@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public final class ExerciseMap {
 
-    private static final String EXERCISES_DIRECTORY = "/Exercises/";
+    private static final String EXERCISES_DIRECTORY = "/home/www/codingame/Easy/";
 
     private static ExerciseMap instance;
 

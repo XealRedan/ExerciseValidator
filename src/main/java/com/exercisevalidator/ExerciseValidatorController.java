@@ -49,7 +49,7 @@ public class ExerciseValidatorController {
     private static final String DELETE_URL = "/delete/";
     private static final String VALIDATE_URL = "/validate/";
 
-    private static final String OUTPUT_FILEPATH = "D:/tmp/";
+    private static final String OUTPUT_FILEPATH = "/home/www/codingame/compilation/";
 
     // Model
     private FileMetaList files = new FileMetaList();
@@ -189,26 +189,8 @@ public class ExerciseValidatorController {
         final ExerciseValidator validator = new ExerciseValidator(exerciseId);
 
         validator.setWorkingDirectory(new File(path));
-//        validator.validate();
+        validator.validate();
 
-        final ValidationDataList validationDataList = new ValidationDataList();
-        final ValidationData goodData = new ValidationData();
-        goodData.setExerciseId(exerciseId);
-        goodData.setSuccessRate(1);
-        goodData.setInputFile("IN_g");
-        goodData.setOutputFile("OUT_g");
-        goodData.setError("Sucess");
-        final ValidationData errorData = new ValidationData();
-        errorData.setExerciseId(exerciseId);
-        errorData.setInputFile("IN_e");
-        errorData.setOutputFile("OUT_e");
-        errorData.setSuccessRate(0);
-        errorData.setError("Error");
-
-        validationDataList.getValidationDataList().add(goodData);
-        validationDataList.getValidationDataList().add(errorData);
-
-//        return validator.getValidationDataList();
-        return validationDataList;
+        return validator.getValidationDataList();
     }
 }

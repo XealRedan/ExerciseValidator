@@ -79,7 +79,7 @@ public class ExerciseData {
             for(File file : directory.listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
-                    return name.startsWith("IN_") || name.startsWith("OUT_");
+                    return name.startsWith("in_") || name.startsWith("out_");
                 }
             })) {
                 final String[] splittedInputFileName = file.getName().split("_");
@@ -88,9 +88,9 @@ public class ExerciseData {
                     return;
                 }
 
-                if(splittedInputFileName[0].equals("IN")) {
+                if(splittedInputFileName[0].equals("in")) {
                     inputFilesMap.put(Integer.parseInt(splittedInputFileName[1]), file);
-                } else if(splittedInputFileName[0].equals("OUT")) {
+                } else if(splittedInputFileName[0].equals("out")) {
                     outputFilesMap.put(Integer.parseInt(splittedInputFileName[1]), file);
                 } else {
                     this.valid = false;
