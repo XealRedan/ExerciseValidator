@@ -82,7 +82,7 @@
                     <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>Cancel upload</span>
                 </button>
-                <a href="<%=request.getContextPath()%>/validate/" role="button" class="btn btn-success btn-exercise-validation disabled">
+                <a href="" role="button" class="btn btn-success btn-exercise-validation">
                     <i class="glyphicon glyphicon-ok"></i>
                     <span>Validate</span>
                 </a>
@@ -150,6 +150,10 @@
             </tr>
         </table>
     </form>
+
+    <div class="progress-exercise-validation">
+
+    </div>
 
     <!-- Table used to display exercise validation results -->
     <table class="table table-exercise-validation">

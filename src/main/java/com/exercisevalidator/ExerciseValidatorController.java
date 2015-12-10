@@ -21,10 +21,7 @@ package com.exercisevalidator;
  */
 
 
-import com.exercisevalidator.model.ExerciseData;
-import com.exercisevalidator.model.FileMeta;
-import com.exercisevalidator.model.FileMetaList;
-import com.exercisevalidator.model.ValidationDataList;
+import com.exercisevalidator.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -184,11 +181,34 @@ public class ExerciseValidatorController {
 
     @RequestMapping(value = VALIDATE_URL, method = RequestMethod.GET)
     public @ResponseBody
-    ValidationDataList validate(@RequestParam("id") int exerciseId) throws IOException {    // TODO Remove this exception from method signature
+    ValidationDataList validate(
+            HttpServletRequest request,
+            @RequestParam("id") int exerciseId) throws IOException {    // TODO Remove this exception from method signature
+        final String path = OUTPUT_FILEPATH + request.getSession().getId() + "/";
+
         final ExerciseValidator validator = new ExerciseValidator(exerciseId);
 
-        validator.validate();
+        validator.setWorkingDirectory(new File(path));
+//        validator.validate();
 
-        return validator.getValidationDataList();
+        final ValidationDataList validationDataList = new ValidationDataList();
+        final ValidationData goodData = new ValidationData();
+        goodData.setExerciseId(exerciseId);
+        goodData.setSuccessRate(1);
+        goodData.setInputFile("IN_g");
+        goodData.setOutputFile("OUT_g");
+        goodData.setError("Sucess");
+        final ValidationData errorData = new ValidationData();
+        errorData.setExerciseId(exerciseId);
+        errorData.setInputFile("IN_e");
+        errorData.setOutputFile("OUT_e");
+        errorData.setSuccessRate(0);
+        errorData.setError("Error");
+
+        validationDataList.getValidationDataList().add(goodData);
+        validationDataList.getValidationDataList().add(errorData);
+
+//        return validator.getValidationDataList();
+        return validationDataList;
     }
 }
