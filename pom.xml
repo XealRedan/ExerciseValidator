@@ -34,11 +34,30 @@
 
     <profiles>
         <profile>
-            <id>RemoteDeploy</id>
+            <id>Dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <exercises.file.path>D:\EV\Exercises\</exercises.file.path>
+                <output.file.path>D:\EV\Output\</output.file.path>
+
+                <web.xml.path>src/main/webapp/WEB-INF/web_dev.xml</web.xml.path>
+
+                <tomcat.deploy.url></tomcat.deploy.url>
+            </properties>
+        </profile>
+        <profile>
+            <id>Prod</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <exercises.file.path>/home/www/EV/Exercises/</exercises.file.path>
+                <output.file.path>/home/www/EV/Output/</output.file.path>
+
+                <web.xml.path>src/main/webapp/WEB-INF/web.xml</web.xml.path>
+
                 <tomcat.deploy.url>http://www.hankerspace.com:8080/manager/text</tomcat.deploy.url>
             </properties>
         </profile>
@@ -48,6 +67,13 @@
         <finalName>ExerciseValidator</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
         <plugins>
             <!-- Maven compiler plugin -->
@@ -68,7 +94,7 @@
                 <version>2.6</version>
                 <configuration>
                     <webappDirectory>src/main/webapp</webappDirectory>
-                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                    <webXml>${web.xml.path}</webXml>
                 </configuration>
             </plugin>
 

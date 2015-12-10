@@ -24,16 +24,25 @@ package com.exercisevalidator;
 import com.exercisevalidator.model.ExerciseData;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Singleton with a mapping between an exercise ID and the associated exercise data
  */
 public final class ExerciseMap {
 
-    private static final String EXERCISES_DIRECTORY = "/home/www/codingame/Easy/";
+    private static String EXERCISES_DIRECTORY = "";
+
+    static {
+        try {
+            final Properties properties = new Properties();
+            properties.load(ExerciseValidatorController.class.getClassLoader().getResourceAsStream("ExerciseValidator.properties"));
+            EXERCISES_DIRECTORY = properties.getProperty("ExercisesFilePath");
+        } catch (IOException e) {
+            //
+        }
+    }
 
     private static ExerciseMap instance;
 

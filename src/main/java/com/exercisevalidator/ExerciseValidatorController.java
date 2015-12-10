@@ -35,6 +35,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 /**
  * Controller for exercise validator
@@ -49,7 +51,17 @@ public class ExerciseValidatorController {
     private static final String DELETE_URL = "/delete/";
     private static final String VALIDATE_URL = "/validate/";
 
-    private static final String OUTPUT_FILEPATH = "/home/www/codingame/compilation/";
+    private static String OUTPUT_FILEPATH = "";
+
+    static {
+        try {
+            final Properties properties = new Properties();
+            properties.load(ExerciseValidatorController.class.getClassLoader().getResourceAsStream("ExerciseValidator.properties"));
+            OUTPUT_FILEPATH = properties.getProperty("OutputFilePath");
+        } catch (IOException e) {
+            //
+        }
+    }
 
     // Model
     private FileMetaList files = new FileMetaList();
