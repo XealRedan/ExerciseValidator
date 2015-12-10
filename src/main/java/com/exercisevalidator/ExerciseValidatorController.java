@@ -45,6 +45,8 @@ import java.util.Iterator;
 @Controller
 public class ExerciseValidatorController {
 
+    public static final String EXERCISE_DATA_ATTRIBUTE = "exerciseData";
+
     private static final String UPLOAD_URL = "/upload/";
     private static final String FILES_URL = "/files/";
     private static final String DELETE_URL = "/delete/";
@@ -63,12 +65,14 @@ public class ExerciseValidatorController {
             value = "/",
             method = RequestMethod.GET)
     public ModelAndView showExerciseValidator(
-            @RequestParam(value = "id", required = false) int exerciseId) {
+            @RequestParam(value = "id", required = false) Integer exerciseId) {
         final ModelAndView fileUploadView = new ModelAndView("FileUploadView");
 
-        final ExerciseData exerciseData = ExerciseMap.getInstance().getExerciseData(exerciseId);
-        if(exerciseData != null) {
-            fileUploadView.getModel().put("exerciseData", exerciseData);
+        if(exerciseId != null) {
+            final ExerciseData exerciseData = ExerciseMap.getInstance().getExerciseData(exerciseId);
+            if (exerciseData != null) {
+                fileUploadView.getModel().put(EXERCISE_DATA_ATTRIBUTE, exerciseData);
+            }
         }
 
         return fileUploadView;

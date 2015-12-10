@@ -24,6 +24,7 @@
     'use strict';
 
     var uploadUrl = '/ExerciseValidator/upload/';
+    var filesUrl = '/ExerciseValidator/files/';
 
     angular.module('file-upload', ['blueimp.fileupload'])
         .config([
@@ -45,7 +46,7 @@
                 };
 
                 $scope.loadingFiles = true;
-                $http.get(uploadUrl)
+                $http.get(filesUrl)
                     .then(
                         function (response) {
                             $scope.loadingFiles = false;

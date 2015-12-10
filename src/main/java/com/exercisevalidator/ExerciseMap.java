@@ -50,11 +50,13 @@ public final class ExerciseMap {
         // Each directory in the exercises directory is an exercise
         final File exercisesDirectory = new File(EXERCISES_DIRECTORY);
 
-        for(final File file : exercisesDirectory.listFiles()) {
-            final ExerciseData exerciseData = new ExerciseData(file);
+        if(exercisesDirectory.exists()) {
+            for (final File file : exercisesDirectory.listFiles()) {
+                final ExerciseData exerciseData = new ExerciseData(file);
 
-            if(exerciseData.isValid()) {
-                this.exercises.put(exerciseData.getId(), exerciseData);
+                if (exerciseData.isValid()) {
+                    this.exercises.put(exerciseData.getId(), exerciseData);
+                }
             }
         }
     }

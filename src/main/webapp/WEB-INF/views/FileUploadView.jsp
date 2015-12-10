@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.exercisevalidator.ExerciseValidatorController" %>
+<%@ page import="com.exercisevalidator.model.ExerciseData" %><%--
   #%L
   Exercise validator
   %%
@@ -35,6 +36,28 @@
     <h1>Exercise validator</h1>
 
     <p class="lead">Web utility to validate student tests</p>
+
+    <!-- Display exercise data -->
+    <%
+        final Object exerciseDataObj = request.getAttribute(ExerciseValidatorController.EXERCISE_DATA_ATTRIBUTE);
+        if(exerciseDataObj != null) {
+            if(exerciseDataObj instanceof ExerciseData) {
+                final ExerciseData exerciseData = (ExerciseData)exerciseDataObj;
+                %>
+                <p><%=exerciseData.getTitle()%></p>
+                <p><%=exerciseData.getDescription()%></p>
+                <%
+            } else {
+                %>
+                <p class="alert alert-danger">Invalid exercise data received from server</p>
+                <%
+            }
+        } else {
+            %>
+            <p class="alert alert-warning">No exercise selected</p>
+            <%
+        }
+    %>
 
     <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload"
@@ -127,6 +150,8 @@
             </tr>
         </table>
     </form>
+
+    <!-- Table used to display exercise validation results -->
     <table class="table table-exercise-validation">
 
     </table>
