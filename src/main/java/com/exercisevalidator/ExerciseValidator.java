@@ -129,7 +129,7 @@ public class ExerciseValidator {
             final File outputFile = outputFiles.get(idx);
 
             final ProcessBuilder executionProcessBuilder = new ProcessBuilder(
-                    "systrace -a main < " + inputFile.getAbsolutePath() + " | " + COMPARE_PATH + " " + outputFile.getAbsolutePath());
+                    "firejail -seccomp main < " + inputFile.getAbsolutePath() + " | " + COMPARE_PATH + " " + outputFile.getAbsolutePath());
 
             // Compare return a 0 value if it matches
             final Process compareProcess = executionProcessBuilder.start();
