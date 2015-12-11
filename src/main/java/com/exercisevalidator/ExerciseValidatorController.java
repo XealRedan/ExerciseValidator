@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -56,8 +57,11 @@ public class ExerciseValidatorController {
     static {
         try {
             final Properties properties = new Properties();
-            properties.load(ExerciseValidatorController.class.getClassLoader().getResourceAsStream("ExerciseValidator.properties"));
-            OUTPUT_FILEPATH = properties.getProperty("OutputFilePath");
+            try (final InputStream is =
+                         ExerciseValidatorController.class.getResourceAsStream("ExerciseValidator.properties")) {
+                properties.load(is);
+                OUTPUT_FILEPATH = properties.getProperty("OutputFilePath");
+            }
         } catch (IOException e) {
             //
         }
