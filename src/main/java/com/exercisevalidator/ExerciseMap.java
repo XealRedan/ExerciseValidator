@@ -37,7 +37,7 @@ public final class ExerciseMap {
     static {
         try {
             final Properties properties = new Properties();
-            properties.load(ExerciseValidatorController.class.getClassLoader().getResourceAsStream("ExerciseValidator.properties"));
+            properties.load(ExerciseValidatorController.class.getResourceAsStream("ExerciseValidator.properties"));
             EXERCISES_DIRECTORY = properties.getProperty("ExercisesFilePath");
         } catch (IOException e) {
             //

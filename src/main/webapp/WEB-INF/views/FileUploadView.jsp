@@ -43,10 +43,13 @@
         if(exerciseDataObj != null) {
             if(exerciseDataObj instanceof ExerciseData) {
                 final ExerciseData exerciseData = (ExerciseData)exerciseDataObj;
-                %>
-                <p><%=exerciseData.getTitle()%></p>
-                <p><%=exerciseData.getDescription()%></p>
-                <%
+
+                if(exerciseData.getMetaData() != null) {
+                    %>
+                    <p class="lead"><%=exerciseData.getMetaData().getTitle()%></p>
+                    <p><%=exerciseData.getMetaData().getGoal()%></p>
+                    <%
+                }
             } else {
                 %>
                 <p class="alert alert-danger">Invalid exercise data received from server</p>

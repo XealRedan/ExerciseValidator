@@ -22,9 +22,12 @@ package com.exercisevalidator.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -34,10 +37,8 @@ import java.util.*;
 public class ExerciseData {
     /** The identifier of the exercise */
     private int id;
-    /** The title of the exercise */
-    private String title;
-    /** The description of the exercise */
-    private String description;
+    /** The meta data of the exercise */
+    private ExerciseMetaData metaData;
 
     /** Set to true if the exercise is valid (files not found for instance) */
     private boolean valid = false;
@@ -73,6 +74,17 @@ public class ExerciseData {
 
             this.id = Integer.parseInt(exerciseIdStr);
 
+            // Get the exercise meta data
+            final File metaDataFile = new File(directory.getAbsolutePath() + File.separator + "meta.json");
+
+            if(metaDataFile.exists()) {
+                try {
+                    this.metaData = new ObjectMapper().readValue(metaDataFile, ExerciseMetaData.class);
+                } catch (IOException e) {
+                    // Unable to read meta data file, they are not mandatory but log a warning
+                }
+            }
+
             // Get the input/output files in an ordered manner
             final SortedMap<Integer, File> inputFilesMap = new TreeMap<>();
             final SortedMap<Integer, File> outputFilesMap = new TreeMap<>();
@@ -82,7 +94,9 @@ public class ExerciseData {
                     return name.startsWith("in_") || name.startsWith("out_");
                 }
             })) {
-                final String[] splittedInputFileName = file.getName().split("_");
+                final String fileName = FilenameUtils.removeExtension(file.getName());
+
+                final String[] splittedInputFileName = fileName.split("_");
                 if(splittedInputFileName.length < 2) {
                     this.valid = false;
                     return;
@@ -113,7 +127,10 @@ public class ExerciseData {
             // TODO Parse the eventual meta data file
         } catch (NumberFormatException e) {
             this.valid = false;
+            return;
         }
+
+        this.valid = true;
     }
 
     public int getId() {
@@ -124,20 +141,12 @@ public class ExerciseData {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public ExerciseMetaData getMetaData() {
+        return metaData;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMetaData(ExerciseMetaData metaData) {
+        this.metaData = metaData;
     }
 
     public List<File> getInputFiles() {
@@ -150,5 +159,53 @@ public class ExerciseData {
 
     public boolean isValid() {
         return valid;
+    }
+
+    public static class ExerciseMetaData {
+        private String title;
+        private String goal;
+        private String rules;
+        private String example;
+        private String input;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getGoal() {
+            return goal;
+        }
+
+        public void setGoal(String goal) {
+            this.goal = goal;
+        }
+
+        public String getRules() {
+            return rules;
+        }
+
+        public void setRules(String rules) {
+            this.rules = rules;
+        }
+
+        public String getExample() {
+            return example;
+        }
+
+        public void setExample(String example) {
+            this.example = example;
+        }
+
+        public String getInput() {
+            return input;
+        }
+
+        public void setInput(String input) {
+            this.input = input;
+        }
     }
 }
