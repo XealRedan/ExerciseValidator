@@ -41,6 +41,7 @@
             <properties>
                 <exercises.file.path>D:\EV\Exercises\</exercises.file.path>
                 <output.file.path>D:\EV\Output\</output.file.path>
+                <compare.path>D:\EV\compare</compare.path>
 
                 <web.xml.path>src/main/webapp/WEB-INF/web_dev.xml</web.xml.path>
 
@@ -55,6 +56,7 @@
             <properties>
                 <exercises.file.path>/home/www/EV/Exercises/</exercises.file.path>
                 <output.file.path>/home/www/EV/Output/</output.file.path>
+                <compare.path>/home/www/codingame/_corrector/compare</compare.path>
 
                 <web.xml.path>src/main/webapp/WEB-INF/web.xml</web.xml.path>
 

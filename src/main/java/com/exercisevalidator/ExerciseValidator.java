@@ -25,14 +25,28 @@ import com.exercisevalidator.model.ValidationDataList;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 /**
  * Class used to validate an exercise
  */
 public class ExerciseValidator {
+
+    private static String COMPARE_PATH = "";
+
+    static {
+        final Properties properties = new Properties();
+        try (final InputStream in = ExerciseValidator.class.getResourceAsStream("ExerciseValidator.properties")) {
+            properties.load(in);
+            COMPARE_PATH = properties.getProperty("ComparePath");
+        } catch (IOException e) {
+            //
+        }
+    }
 
     private File workingDirectory;
 
@@ -110,13 +124,12 @@ public class ExerciseValidator {
         }
 
         // Run the tests in a sandbox with each input file and compare it with output files
-        // TODO Test the results for every input file
         for(int idx = 0; idx < inputFiles.size(); idx++) {
             final File inputFile = inputFiles.get(idx);
             final File outputFile = outputFiles.get(idx);
 
             final ProcessBuilder executionProcessBuilder = new ProcessBuilder(
-                    "systrace -a main < " + inputFile.getAbsolutePath() + " | /home/www/codingame/_corrector/compare " + outputFile.getAbsolutePath());
+                    "systrace -a main < " + inputFile.getAbsolutePath() + " | " + COMPARE_PATH + " " + outputFile.getAbsolutePath());
 
             // Compare return a 0 value if it matches
             final Process compareProcess = executionProcessBuilder.start();
