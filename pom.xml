@@ -43,6 +43,8 @@
                 <output.file.path>D:\EV\Output\</output.file.path>
                 <compare.path>D:\EV\compare</compare.path>
 
+                <compare.command.line>main &lt; {0} | ${compare.path} {1}</compare.command.line>
+
                 <web.xml.path>src/main/webapp/WEB-INF/web_dev.xml</web.xml.path>
 
                 <tomcat.deploy.url></tomcat.deploy.url>
@@ -57,6 +59,8 @@
                 <exercises.file.path>/home/www/EV/Exercises/</exercises.file.path>
                 <output.file.path>/home/www/EV/Output/</output.file.path>
                 <compare.path>/home/www/codingame/_corrector/compare</compare.path>
+
+                <compare.command.line>firejail -seccomp main &lt; {0} | ${compare.path} {1}</compare.command.line>
 
                 <web.xml.path>src/main/webapp/WEB-INF/web.xml</web.xml.path>
 

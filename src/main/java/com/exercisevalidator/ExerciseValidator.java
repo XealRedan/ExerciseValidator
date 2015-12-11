@@ -26,6 +26,7 @@ import com.exercisevalidator.model.ValidationDataList;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -37,12 +38,14 @@ import java.util.Scanner;
 public class ExerciseValidator {
 
     private static String COMPARE_PATH = "";
+    private static String COMPARE_COMMAND_LINE = "";
 
     static {
         final Properties properties = new Properties();
         try (final InputStream in = ExerciseValidator.class.getResourceAsStream("ExerciseValidator.properties")) {
             properties.load(in);
             COMPARE_PATH = properties.getProperty("ComparePath");
+            COMPARE_COMMAND_LINE = properties.getProperty("CompareCommandLine");
         } catch (IOException e) {
             //
         }
@@ -128,8 +131,10 @@ public class ExerciseValidator {
             final File inputFile = inputFiles.get(idx);
             final File outputFile = outputFiles.get(idx);
 
-            final ProcessBuilder executionProcessBuilder = new ProcessBuilder(
-                    "firejail -seccomp main < " + inputFile.getAbsolutePath() + " | " + COMPARE_PATH + " " + outputFile.getAbsolutePath());
+            final Object[] args = new Object[] {inputFile.getAbsolutePath(), outputFile.getAbsolutePath()};
+            final MessageFormat commandLineFormat = new MessageFormat(COMPARE_COMMAND_LINE);
+
+            final ProcessBuilder executionProcessBuilder = new ProcessBuilder(commandLineFormat.format(args));
 
             // Compare return a 0 value if it matches
             final Process compareProcess = executionProcessBuilder.start();
