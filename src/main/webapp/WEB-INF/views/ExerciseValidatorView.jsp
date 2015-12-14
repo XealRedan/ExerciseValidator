@@ -48,6 +48,8 @@
                     %>
                     <p class="lead"><%=exerciseData.getMetaData().getTitle()%></p>
                     <p><%=exerciseData.getMetaData().getGoal()%></p>
+                    <p><%=exerciseData.getMetaData().getRules()%></p>
+                    <p><%=exerciseData.getMetaData().getExample()%></p>
                     <%
                 }
             } else {

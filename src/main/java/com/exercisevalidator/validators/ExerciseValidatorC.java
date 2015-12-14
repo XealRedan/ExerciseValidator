@@ -43,7 +43,8 @@ public class ExerciseValidatorC implements IExerciseValidator {
 
     static {
         final Properties properties = new Properties();
-        try (final InputStream in = ExerciseValidatorC.class.getResourceAsStream("ExerciseValidator.properties")) {
+        // TODO Create a new property file in the good package
+        try (final InputStream in = ExerciseValidatorC.class.getResourceAsStream("../ExerciseValidator.properties")) {
             properties.load(in);
             COMPARE_PATH = properties.getProperty("ComparePath");
             COMPARE_COMMAND_LINE = properties.getProperty("CompareCommandLine");
