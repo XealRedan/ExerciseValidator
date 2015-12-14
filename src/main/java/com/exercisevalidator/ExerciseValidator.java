@@ -135,10 +135,8 @@ public class ExerciseValidator implements IExerciseValidator {
             final Object[] args = new Object[] {inputFile.getAbsolutePath(), outputFile.getAbsolutePath()};
             final MessageFormat commandLineFormat = new MessageFormat(COMPARE_COMMAND_LINE);
 
-            final ProcessBuilder executionProcessBuilder = new ProcessBuilder(commandLineFormat.format(args));
-
             // Compare return a 0 value if it matches
-            final Process compareProcess = executionProcessBuilder.start();
+            final Process compareProcess = Runtime.getRuntime().exec(commandLineFormat.format(args));
 
             int compareReturnVal = -1;
             try {
