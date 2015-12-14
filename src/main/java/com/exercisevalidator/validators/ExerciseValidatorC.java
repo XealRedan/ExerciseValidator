@@ -1,4 +1,4 @@
-package com.exercisevalidator;
+package com.exercisevalidator.validators;
 
 /*
  * #%L
@@ -20,6 +20,7 @@ package com.exercisevalidator;
  * #L%
  */
 
+import com.exercisevalidator.ExerciseMap;
 import com.exercisevalidator.model.ValidationData;
 import com.exercisevalidator.model.ValidationDataList;
 
@@ -35,14 +36,14 @@ import java.util.Scanner;
 /**
  * Class used to validate an exercise
  */
-public class ExerciseValidator implements IExerciseValidator {
+public class ExerciseValidatorC implements IExerciseValidator {
 
     private static String COMPARE_PATH = "";
     private static String COMPARE_COMMAND_LINE = "";
 
     static {
         final Properties properties = new Properties();
-        try (final InputStream in = ExerciseValidator.class.getResourceAsStream("ExerciseValidator.properties")) {
+        try (final InputStream in = ExerciseValidatorC.class.getResourceAsStream("ExerciseValidator.properties")) {
             properties.load(in);
             COMPARE_PATH = properties.getProperty("ComparePath");
             COMPARE_COMMAND_LINE = properties.getProperty("CompareCommandLine");
@@ -60,7 +61,7 @@ public class ExerciseValidator implements IExerciseValidator {
     /** The list of validation data produced by the validate() function */
     private ValidationDataList validationDataList = new ValidationDataList();
 
-    public ExerciseValidator(int exerciseId) {
+    public ExerciseValidatorC(int exerciseId) {
         this.exerciseId = exerciseId;
     }
 

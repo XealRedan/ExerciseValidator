@@ -22,6 +22,8 @@ package com.exercisevalidator;
 
 
 import com.exercisevalidator.model.*;
+import com.exercisevalidator.validators.ExerciseValidatorC;
+import com.exercisevalidator.validators.IExerciseValidator;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -205,7 +207,7 @@ public class ExerciseValidatorController {
             @RequestParam("id") int exerciseId) throws IOException {    // TODO Remove this exception from method signature
         final String path = OUTPUT_FILEPATH + request.getSession().getId() + "/";
 
-        final ExerciseValidator validator = new ExerciseValidator(exerciseId);
+        final IExerciseValidator validator = new ExerciseValidatorC(exerciseId);
 
         final File workingDirectory = new File(path);
         final List<File> sourceFiles = new ArrayList<>();

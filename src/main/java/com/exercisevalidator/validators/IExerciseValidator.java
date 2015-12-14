@@ -1,4 +1,4 @@
-package com.exercisevalidator;
+package com.exercisevalidator.validators;
 
 import com.exercisevalidator.model.ValidationDataList;
 
