@@ -37,7 +37,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 /**
  * Controller for exercise validator
@@ -79,7 +78,7 @@ public class ExerciseValidatorController {
             method = RequestMethod.GET)
     public ModelAndView showExerciseValidator(
             @RequestParam(value = "id", required = false) Integer exerciseId) {
-        final ModelAndView fileUploadView = new ModelAndView("FileUploadView");
+        final ModelAndView fileUploadView = new ModelAndView("ExerciseValidatorView");
 
         if(exerciseId != null) {
             final ExerciseData exerciseData = ExerciseMap.getInstance().getExerciseData(exerciseId);
