@@ -80,11 +80,12 @@ public class ExerciseValidator implements IExerciseValidator {
             oldMain.delete();
 
         // Compile files
-        String compilationCommandLine = "gcc -o main ";
+        final List<String> compilationCommandLine = new ArrayList<>();
+        compilationCommandLine.add("gcc");
+        compilationCommandLine.add("-o main");
         for(File file : this.sourceFiles) {
-            compilationCommandLine += file.getAbsolutePath() + " ";
+            compilationCommandLine.add(file.getAbsolutePath());
         }
-        compilationCommandLine = compilationCommandLine.trim();
 
         final ProcessBuilder compilationProcessBuilder = new ProcessBuilder(compilationCommandLine);
         compilationProcessBuilder.directory(this.workingDirectory);
