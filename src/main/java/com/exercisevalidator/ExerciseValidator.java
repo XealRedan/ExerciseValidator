@@ -35,7 +35,7 @@ import java.util.Scanner;
 /**
  * Class used to validate an exercise
  */
-public class ExerciseValidator {
+public class ExerciseValidator implements IExerciseValidator {
 
     private static String COMPARE_PATH = "";
     private static String COMPARE_COMMAND_LINE = "";

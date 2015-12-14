@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  */
 @Aspect
 public class ExerciseDataLogger {
-    @AfterThrowing("execution(* *.new(java.io.File)) && args(file)")
+    @AfterThrowing("execution(*.new(java.io.File)) && args(file)")
     public void logExerciseDataException(JoinPoint joinPoint, File file) {
         Logger.getLogger("ExerciseValidator").warning(
                 "Exception thrown when parsing exercise folder " + file.getAbsolutePath());

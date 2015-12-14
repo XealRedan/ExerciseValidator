@@ -22,6 +22,7 @@ package com.exercisevalidator;
 
 
 import com.exercisevalidator.model.*;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -31,11 +32,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -146,17 +146,21 @@ public class ExerciseValidatorController {
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable("file") String file) {
-        for(FileMeta f : this.files.getFiles()) {
-            if(f.getName().equals(file))
-                return f;
+        synchronized(this.files) {
+            for(FileMeta f : this.files.getFiles()) {
+                if(f.getName().equals(file))
+                    return f;
+            }
+            return null;
         }
-        return null;
     }
 
     @RequestMapping(value = FILES_URL, method = RequestMethod.GET)
     public @ResponseBody
     FileMetaList getFiles(HttpServletRequest request, HttpServletResponse response) {
-        return this.files;
+        synchronized (this.files) {
+            return this.files;
+        }
     }
 
     @RequestMapping(value = DELETE_URL + "{file:.+}", method = RequestMethod.DELETE)
@@ -203,7 +207,25 @@ public class ExerciseValidatorController {
 
         final ExerciseValidator validator = new ExerciseValidator(exerciseId);
 
-        validator.setWorkingDirectory(new File(path));
+        final File workingDirectory = new File(path);
+        final List<File> sourceFiles = new ArrayList<>();
+
+        for(File file : workingDirectory.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                final String extension = FilenameUtils.getExtension(name);
+                if(extension.equals("c") || extension.equals("cpp")) {
+                    return true;
+                }
+
+                return false;
+            }
+        })) {
+            sourceFiles.add(file);
+        }
+
+        validator.setWorkingDirectory(workingDirectory);
+        validator.setSourceFiles(sourceFiles);
         validator.validate();
 
         return validator.getValidationDataList();
